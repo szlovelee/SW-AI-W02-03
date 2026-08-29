@@ -41,16 +41,18 @@ def rotate_matrix_90(matrix):
     Returns:
         회전된 2차원 리스트
     """
-    n = len(matrix)
-    rotated = []
-    for i in range(n):
-        rotated.append([0] * n)
+    # n = len(matrix)
+    # rotated = []
+    # for i in range(n):
+    #     rotated.append([0] * n)
 
-    for i in range(n):  #i는 행
-        for j in range(n): #j는 열 
-            rotated[j][n - i - 1] = matrix[i][j]
+    # for i in range(n):  #i는 행
+    #     for j in range(n): #j는 열 
+    #         rotated[j][n - i - 1] = matrix[i][j]
 
-    return rotated
+    # return rotated
+
+    return [list(row) for row in zip(*matrix[::-1])]
 
 def print_matrix(matrix):
     """배열을 보기 좋게 출력하는 헬퍼 함수"""

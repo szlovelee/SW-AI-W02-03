@@ -36,12 +36,15 @@ def find_duplicates_brute_force(nums):
     ## 같은 원소를 찾으면 duplicates에 추가 (중복 추가 방지 필요)
     pass
     for i in range(n):
+        if nums[i] in duplicates:
+            continue
+
         for j in range(i + 1, n):
-            if nums[i] in duplicates:
-                continue
             if nums[i] == nums[j]:
                 duplicates.append(nums[i])
-        
+                break
+    
+
     return duplicates
 
 def find_duplicates_sorting(nums):
@@ -62,9 +65,9 @@ def find_duplicates_sorting(nums):
     # i와 i+1 원소가 같고, duplicates에 없으면 추가
     pass
     for i in range(n - 1):
-        if nums[i] in duplicates:
+        if nums[i] != nums[i + 1]:
             continue
-        if nums[i] == nums[i + 1]:
+        if not duplicates or duplicates[-1] != nums[i]:
             duplicates.append(nums[i])
 
   
@@ -83,13 +86,11 @@ def find_duplicates_hash(nums):
     ## 이미 seen에 있으면 duplicates에 추가
     ## 없으면 seen에 추가
     n = len(nums)
-    for i in range(n):
-        if nums[i] not in seen:
-            seen.add(nums[i])
-        elif nums[i] in duplicates:
-            continue
+    for num in nums:
+        if num in seen:
+            duplicates.add(num)
         else:
-            duplicates.add(nums[i])
+            seen.add(num)
     
     return list(duplicates)
 

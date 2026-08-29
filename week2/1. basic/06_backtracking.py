@@ -120,22 +120,22 @@ def combinations(n: int, k: int) -> list:
         모든 조합을 담은 리스트(예: [[1,2], [1,3], ...])
     """
 
+    # 계산 불가 부분 전처리
+    if k < 0 or n < k:
+        return []
+    
     result = []  # 완성된 조합을 모아 둘 곳
 
     def backtrack(start: int, current_combination: list) -> None:
-        """
-        재귀(백트래킹) 헬퍼 함수.
-
-        Args:
-            start: 이번에 시도해볼 수 있는 가장 작은 숫자
-            current_combination: 지금까지 골라 둔 숫자들 (탐색 중)
-        """
 
         if len(current_combination) == k:
             result.append(current_combination[:])
             return
+        
+        needed = k - len(current_combination)
+        last_start = n - needed + 1 
 
-        for num in range(start, n + 1) :
+        for num in range(start, last_start + 1) :
             current_combination.append(num)
             backtrack(num + 1, current_combination)
             current_combination.pop()

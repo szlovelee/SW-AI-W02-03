@@ -37,13 +37,24 @@ def find_two_sum_pairs(nums, target):
     Returns:
         list: (i, j) 인덱스 쌍의 리스트
     """
-    pairs = []
-    n = len(nums)
+    # pairs = []
+    # n = len(nums)
 
-    for i in range(n - 1):
-      for j in range(i + 1, n):
-        if nums[i] + nums[j] == target:
-           pairs.append((i, j))
+    # for i in range(n - 1):
+    #   for j in range(i + 1, n):
+    #     if nums[i] + nums[j] == target:
+    #        pairs.append((i, j))
+
+    positions = {}
+    pairs = []
+
+    for j, value in enumerate(nums):
+        complement = target - value
+
+        for i in positions.get(complement, []):
+            pairs.append((i, j))
+
+        positions.setdefault(value, []).append(j)
 
     return pairs
 

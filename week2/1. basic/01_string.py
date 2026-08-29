@@ -34,22 +34,29 @@ def is_palindrome(s):
     Returns:
         bool: 회문이면 True, 아니면 False
     """
-    s = s.lower()
-    front = 0
-    rear = len(s) - 1
-    while (rear - front > 0):
-      while(not s[front].isalnum()) and front < rear:
-          front += 1
-      while(not s[rear].isalnum()) and rear > front:
-          rear -= 1
+    # s = s.lower()
+    # front = 0
+    # rear = len(s) - 1
+    # while (rear - front > 0):
+    #   while(not s[front].isalnum()) and front < rear:
+    #       front += 1
+    #   while(not s[rear].isalnum()) and rear > front:
+    #       rear -= 1
 
-      if s[front] != s[rear]:
-          return False
+    #   if s[front] != s[rear]:
+    #       return False
 
-      front += 1
-      rear -= 1
+    #   front += 1
+    #   rear -= 1
 
-    return True
+    # return True
+    normalized = "".join(
+        c for c in s.lower()
+        if c.isalnum()
+    )
+
+    return normalized == normalized[::-1]
+
 
 
 # 테스트 케이스

@@ -1,3 +1,4 @@
+from functools import cache
 """
 [재귀 함수 - 팩토리얼과 피보나치 수열]
 
@@ -37,7 +38,7 @@ def factorial(n):
 
     return n * factorial(n - 1)
 
-
+@cache
 def fibonacci(n):
     """
     재귀를 사용한 피보나치 수 계산
