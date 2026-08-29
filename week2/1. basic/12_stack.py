@@ -26,17 +26,23 @@
 """
 
 def is_valid_parentheses(s):
-    """
-    괄호 짝이 맞는지 확인
-    
-    Args:
-        s: 괄호 문자열
-    
-    Returns:
-        올바른 괄호면 True, 아니면 False
-    """
+
+    open_p = {"(":0, "{":1, "[":2}
+    close_p = {")":0, "}":1, "]":2}
     stack = []
+
+    for l in s:
+        if l in open_p:
+            stack.append(l)
+        elif len(stack) == 0:
+            return False
+        elif open_p[stack.pop()] != close_p[l]:
+            return False
+
+    if len(stack) > 0:
+        return False
     
+    return True
     # TODO: 문자열의 각 문자를 순회
     ## : 여는 괄호 '('면 스택에 추가
     ## : 닫는 괄호 ')'면
