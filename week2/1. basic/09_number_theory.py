@@ -55,15 +55,18 @@ def gcd_iterative(a, b):
     Returns:
         최대공약수
     """
-    min_val = min(a, b)
-    max_val = max(a, b)
-    n = min(min_val, int(math.sqrt(max_val)))
+    # min_val = min(a, b)
 
-    for i in range(n, 0, -1):
-        if a % i == b % i == 0:
-            return i
+    # for i in range(min_val, 0, -1):
+    #     if a % i == b % i == 0:
+    #         return i
 
-    return 1
+    # return 1
+    while b != 0:
+        a, b = b, a % b
+
+    return a
+
 
 def lcm(a, b):
     """
@@ -75,7 +78,7 @@ def lcm(a, b):
     Returns:
         최소공배수
     """
-    return int(a * b / gcd(a,b))
+    return a * b // gcd(a,b)
 
     # TODO: LCM 계산
     pass
@@ -122,11 +125,11 @@ def is_prime(n):
     """
     if n < 2:
         return False
-    if n == 2:
+    if n == 2 or n == 3:
         return True
     if n % 2 == 0:
         return False
-    for i in range(3, int(math.sqrt(n)), 2):
+    for i in range(3, math. isqrt(n), 2):
         if n % i == 0:
             return False
 
