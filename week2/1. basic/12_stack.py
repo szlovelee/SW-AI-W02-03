@@ -27,31 +27,17 @@
 
 def is_valid_parentheses(s):
 
-    open_p = {"(":0, "{":1, "[":2}
-    close_p = {")":0, "}":1, "]":2}
+    pairs = {")": "(", "}": "{", "]": "["}
+
     stack = []
 
     for l in s:
-        if l in open_p:
+        if l not in pairs:
             stack.append(l)
-        elif len(stack) == 0:
-            return False
-        elif open_p[stack.pop()] != close_p[l]:
+        elif not stack or pairs[l] != stack.pop():
             return False
 
-    if len(stack) > 0:
-        return False
-    
-    return True
-    # TODO: 문자열의 각 문자를 순회
-    ## : 여는 괄호 '('면 스택에 추가
-    ## : 닫는 괄호 ')'면
-    ## 스택이 비어있으면 False 반환
-    ## 아니면 스택에서 pop
-    pass
-    
-    # TODO: 반복이 끝나면 스택이 비어있는지 확인
-    pass
+    return not stack
 
 # 테스트 케이스
 if __name__ == "__main__":

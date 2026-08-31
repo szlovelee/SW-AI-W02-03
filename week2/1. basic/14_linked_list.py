@@ -116,12 +116,12 @@ class LinkedList:
     def append(self, data):
         new_node = Node(data)
 
-        if self.head == None:
+        if not self.head:
           self.head = new_node
           return
 
         node = self.head
-        while node.next != None:
+        while node.next:
             node = node.next
 
         node.next = new_node
