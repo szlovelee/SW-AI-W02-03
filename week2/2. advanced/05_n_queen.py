@@ -53,46 +53,74 @@ N = 8 -> 92      (전통적인 "8-Queens 문제" 의 답)
     대각선 충돌    :  abs(cols[i] - c) == row - i
 - row 가 N 에 도달했다는 것은 모든 행을 무사히 채웠다는 의미이므로 1가지 경우.
 """
+def n_queens(n:int)-> int:
+   return n_qeens_bit(n)
 
 
-def n_queens(n: int) -> int:
+def n_queens_set(n: int) -> int:
     """
     N x N 체스판에 N 개의 퀸을 서로 공격하지 않도록 배치하는 경우의 수를 반환.
     1 <= N <= 8 범위에서 동작하면 충분합니다.
     """
 
-    q_pos = []
+    used_cols = set()
+    used_down_diagonal = set()
+    used_up_diagonal = set()
 
-    def check_col(): 
-        if len(q_pos) == n:
-            return 1
+    def backtrack(row):
+      if row == n:
+        return 1
 
-        count = 0
-        row = len(q_pos)
-        for i in range(n):
-            available = True
-            for q in q_pos:
-                if q[1] == i or isDiagonal(q, (row, i)):
-                    available = False
-                    break
-            if not available:
-                continue
+      count = 0
 
-            q_pos.append((row, i))
-            count += check_col()
-            q_pos.pop()
+      for col in range(n):
+          down_diagonal = row - col
+          up_diagonal = row + col
+          if (col in used_cols 
+              or down_diagonal in used_down_diagonal 
+              or up_diagonal in used_up_diagonal):
+              continue
 
-        return count
+          used_cols.add(col)
+          used_down_diagonal.add(down_diagonal)
+          used_up_diagonal.add(up_diagonal)
 
-    def isDiagonal(q, cur_pos):
-        if q[0] - q[1] == cur_pos[0] - cur_pos[1]:
-            return True
-        if q[0] + q[1] == cur_pos[0] + cur_pos[1]:
-            return True
+          count += backtrack(row + 1)
 
-        return False
+          used_cols.remove(col)
+          used_down_diagonal.remove(down_diagonal)
+          used_up_diagonal.remove(up_diagonal)
 
-    return check_col()
+      return count
+
+    return backtrack(0)
+             
+def n_qeens_bit(n: int) -> int:
+  full_mask = (1 << n) - 1
+
+  def backtrack(row, columns, left_diagonal, right_diagonal):
+     if row == n:
+        return 1
+
+     blocked = (columns | left_diagonal | right_diagonal)
+
+     available = full_mask & ~blocked
+
+     count = 0
+     
+     while available:
+        position = available & -available
+
+        available ^= position
+
+        count += backtrack(row + 1, 
+                           columns|position,
+                           (left_diagonal | position) << 1 & full_mask,
+                           (right_diagonal | position) >> 1 & full_mask)
+
+     return count  
+
+  return backtrack(0, 0, 0, 0)
 
 
 if __name__ == "__main__":

@@ -35,14 +35,14 @@ def partition(arr, low, high):
         피벗의 최종 위치 인덱스
     """
 
-    pivot =arr[high]
+    pivot = high
     
     i = low
     for j in range(low, high):
-        if arr[j] < pivot:
+        if arr[j] < arr[pivot]:
             arr[i], arr[j] = arr[j], arr[i]
             i += 1
-    arr[high], arr[i] = arr[i], arr[high]
+    arr[pivot], arr[i] = arr[i], arr[pivot]
 
     return i
 
