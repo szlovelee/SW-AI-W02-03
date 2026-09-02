@@ -53,8 +53,19 @@ N = 8 -> 92      (전통적인 "8-Queens 문제" 의 답)
     대각선 충돌    :  abs(cols[i] - c) == row - i
 - row 가 N 에 도달했다는 것은 모든 행을 무사히 채웠다는 의미이므로 1가지 경우.
 """
+import time
+
 def n_queens(n:int)-> int:
-   return n_qeens_bit(n)
+   start_time = time.perf_counter()
+   result = n_queens_set(n)
+   end_time = time.perf_counter()
+
+   elapsed = end_time - start_time
+   print(f"경과 시간 : {elapsed * 1000:.4f}ms")
+   print(f"time : {elapsed*1_000_000:.2f}μs")
+
+   return result
+
 
 
 def n_queens_set(n: int) -> int:
@@ -94,8 +105,41 @@ def n_queens_set(n: int) -> int:
       return count
 
     return backtrack(0)
+
+def n_queens_array(n: int) -> int:
+    used_cols = [False] * n
+    used_down_diagonal = [False] * (2 * n - 1)
+    used_up_diagonal = [False] * (2 * n - 1)
+
+    def backtrack(row):
+      if row == n:
+        return 1
+
+      count = 0
+
+      for col in range(n):
+          down_index = row - col + n - 1 # 음수 방지
+          up_index = row + col
+          if (used_cols[col]
+              or used_down_diagonal[down_index] 
+              or used_up_diagonal[up_index]):
+              continue
+
+          used_cols[col] = True
+          used_down_diagonal[down_index] = True
+          used_up_diagonal[up_index] = True
+
+          count += backtrack(row + 1)
+
+          used_cols[col] = False
+          used_down_diagonal[down_index] = False
+          used_up_diagonal[up_index]
+
+      return count
+
+    return backtrack(0)
              
-def n_qeens_bit(n: int) -> int:
+def n_queens_bit(n: int) -> int:
   full_mask = (1 << n) - 1
 
   def backtrack(row, columns, left_diagonal, right_diagonal):
