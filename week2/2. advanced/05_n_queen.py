@@ -133,7 +133,7 @@ def n_queens_array(n: int) -> int:
 
           used_cols[col] = False
           used_down_diagonal[down_index] = False
-          used_up_diagonal[up_index]
+          used_up_diagonal[up_index] = False
 
       return count
 
@@ -168,6 +168,7 @@ def n_queens_bit(n: int) -> int:
 
 
 if __name__ == "__main__":
-    print("[테스트] N=1 ~ N=8 에 대한 가능한 배치의 수")
-    for n in range(1, 9):
-        print(f"  N={n}: {n_queens(n)}")
+    # print("[테스트] N=1 ~ N=8 에 대한 가능한 배치의 수")
+    # for n in range(1, 9):
+    #     print(f"  N={n}: {n_queens(n)}")
+    n_queens(8)
