@@ -42,54 +42,61 @@ class TreeNode:
 def preorder(root):
     """전위 순회: 루트 → 왼쪽 → 오른쪽"""
     result = []
-    
-    # TODO: root가 None이면 빈 리스트 반환
-    pass
-    
-    # TODO: 루트 값 추가
-    pass
-    
-    # TODO: 왼쪽 서브트리 순회
-    pass
-    
-    # TODO: 오른쪽 서브트리 순회
-    pass
-    
+    stack = []
+
+    node = root
+    while node:
+        result.append(node.value)
+        if node.right:
+          stack.append(node.right)
+        if node.left: 
+          node = node.left 
+        elif stack:
+            node = stack.pop()
+        else:
+            break
+
+   
     return result
 
 def inorder(root):
     """중위 순회: 왼쪽 → 루트 → 오른쪽"""
     result = []
-    
-    # TODO: root가 None이면 빈 리스트 반환
-    pass
-    
-    # TODO: 왼쪽 서브트리 순회
-    pass
-    
-    # TODO: 루트 값 추가
-    pass
-    
-    # TODO: 오른쪽 서브트리 순회
-    pass
+    stack = []
+
+    node = root
+    while node:
+        if node.left:
+            stack.append(node)
+            node = node.left
+        else:
+            result.append(node.value)
+            if stack:
+                node = stack.pop()
+                result.append(node.value)
+                if node.right:
+                    node = node.right
+            else:
+                break
     
     return result
 
 def postorder(root):
     """후위 순회: 왼쪽 → 오른쪽 → 루트"""
     result = []
-    
-    # TODO: root가 None이면 빈 리스트 반환
-    pass
-    
-    # TODO: 왼쪽 서브트리 순회
-    pass
-    
-    # TODO: 오른쪽 서브트리 순회
-    pass
-    
-    # TODO: 루트 값 추가
-    pass
+    stack = []
+
+    node = root
+    def traverse(node):
+        stack.append(node)
+        if node.right:
+            traverse(node.right)
+        if node.left:
+            traverse(node.left)
+
+
+    traverse(root)
+    result.extend(element.value for element in stack[::-1])
     
     return result
 
