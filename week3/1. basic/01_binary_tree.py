@@ -41,6 +41,24 @@ class TreeNode:
 
 def preorder(root):
     """전위 순회: 루트 → 왼쪽 → 오른쪽"""
+    return preorder_loop(root)
+
+def preorder_recursive(root):
+    result = []
+    
+    def traverse(node):
+        if node == None:
+            return
+
+        result.append(node.value)
+        traverse(node.left)
+        traverse(node.right)
+        return
+
+    traverse(root)
+    return result
+
+def preorder_loop(root):
     result = []
     stack = []
 
@@ -48,56 +66,96 @@ def preorder(root):
     while node:
         result.append(node.value)
         if node.right:
-          stack.append(node.right)
-        if node.left: 
-          node = node.left 
-        elif stack:
-            node = stack.pop()
-        else:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
+        if not stack:
             break
+        node = stack.pop()
 
-   
     return result
 
 def inorder(root):
     """중위 순회: 왼쪽 → 루트 → 오른쪽"""
-    result = []
-    stack = []
+    return inorder_loop(root)
 
-    node = root
-    while node:
-        if node.left:
-            stack.append(node)
-            node = node.left
-        else:
-            result.append(node.value)
-            if stack:
-                node = stack.pop()
-                result.append(node.value)
-                if node.right:
-                    node = node.right
-            else:
-                break
+def inorder_recursive(root):
+    result = []
     
+    def traverse(node):
+        if node == None:
+            return
+
+        traverse(node.left)
+        result.append(node.value)
+        traverse(node.right)
+        return
+
+    traverse(root)
     return result
+
+def inorder_loop(root):
+  result = []
+  stack = []
+
+  node = root
+  while node is not None:
+    if node.left:
+        stack.append(node)
+        node = node.left
+    else: 
+        result.append(node.value)
+        node = node.right
+        while not node and stack:
+          node = stack.pop()
+          result.append(node.value)
+          node = node.right
+
+  return result
 
 def postorder(root):
     """후위 순회: 왼쪽 → 오른쪽 → 루트"""
+    return postorder_loop(root)
+
+def postorder_recursive(root):
+    result = []
+    
+    def traverse(node):
+        if node == None:
+            return
+
+        traverse(node.left)
+        traverse(node.right)
+        result.append(node.value)
+        return
+
+    traverse(root)    
+    return result
+
+def postorder_loop(root):
     result = []
     stack = []
+    last_visit = None
 
     node = root
-    def traverse(node):
-        stack.append(node)
+    while node is not None:
+        while node.left:
+            stack.append(node)    
+            node = node.left
         if node.right:
-            traverse(node.right)
-        if node.left:
-            traverse(node.left)
-
-
-    traverse(root)
-    result.extend(element.value for element in stack[::-1])
-    
+            stack.append(node)
+            node = node.right
+        else:
+            result.append(node.value)
+            last_visit = node                       
+            while stack:
+                node = stack[-1].right
+                if node and node is not last_visit:
+                    break
+                else:
+                    last_visit = stack.pop()
+                    result.append(last_visit.value) 
+                    node = None                    
     return result
 
 # 테스트 케이스

@@ -45,12 +45,18 @@ def climb_stairs(n):
     Returns:
         n번째 계단까지 오르는 방법의 수
     """
-    dp = [0] * (n + 1)
+
+    if n < 0:
+        raise ValueError("n은 0 이상의 정수여야 합니다.")
+
+    dp = [None] * (n + 1)
 
     def climb(n):
 
         if not dp[n]:
-            if n < 3:
+            if n == 0:
+                dp[n] = 1
+            elif n < 3:
                 dp[n] = n
             else:
                 dp[n] = climb(n - 2) + climb(n - 1)
@@ -60,6 +66,8 @@ def climb_stairs(n):
     climb(n)
 
     return dp[n]
+
+
 
 # 테스트 케이스
 if __name__ == "__main__":

@@ -50,7 +50,6 @@ def search_bst(root, target):
     Returns:
         True/False
     """
-    stack = []
 
     node = root
     while node:

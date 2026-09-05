@@ -76,13 +76,13 @@ def fibonacci_memo(n, memo=None):
     
     Args:
         n: 피보나치 인덱스
-        memo: 계산 결과를 저장할 딕셔너리
+        memo: 계산 결과를 저장할 리스트
     
     Returns:
         n번째 피보나치 수
     """
-    if not memo:
-        memo = [0] * (n + 1)
+    if memo is None:
+        memo = [None] * (n + 1)
 
     if n < 2:
         return n

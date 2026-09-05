@@ -48,18 +48,16 @@ def bfs(graph, start):
 
     q = deque()
     q.append(start)
+    flag[start] = 1
 
     while len(q) > 0:
         cur = q.popleft()
-        if flag[cur]:
-            continue
-
         visited.append(cur)
-        flag[cur] = 1
 
         for neighbor in graph[cur]:
             if not flag[neighbor]:
               q.append(neighbor)
+              flag[neighbor] = 1
 
     return visited
 

@@ -44,15 +44,13 @@ def make_change_greedy(change, coins):
     total_coins = 0
     
     for coin in coins:
-        while change >= coin:
-            count = change // coin
-            total_coins += count
-            if not coin in result: 
-                result[coin] = 0
-            result[coin] += count
-            change %= coin
-      
-    
+        count = change // coin
+        if count == 0:
+            continue
+        total_coins += count
+        result[coin] = count
+        change %= coin
+  
     return total_coins, result
 
 # 테스트 케이스

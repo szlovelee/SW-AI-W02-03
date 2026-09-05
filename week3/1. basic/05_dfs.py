@@ -42,29 +42,48 @@ def dfs(graph, start, visited=None):
     Returns:
         방문 순서 리스트
     """
-    if not visited:
+    return dfs_loop(graph, start, visited)
+
+def dfs_recursive(graph, start, visited=None):
+    if visited is None:
         visited = []
 
-    flag = [0] * len(graph)
+    flag = [0] * len(graph) #그래프 정점이 연속된 정수가 아닐 경우 set 사용
 
-    def search(neighbors):
-        nonlocal flag
-        nonlocal visited
+    def search(vertex):
+        flag[vertex] = 1
+        visited.append(vertex)
 
-        if all(flag):
-            return
-
-        for neighbor in neighbors:
+        for neighbor in graph[vertex]:
             if flag[neighbor]: 
                 continue
             else:
-                visited.append(neighbor)
-                flag[neighbor] = 1
-                search(graph[neighbor])
+                search(neighbor)
 
-    visited.append(start)
+    search(start)
+
+    return visited    
+
+def dfs_loop(graph, start, visited):
+    if visited is None:
+        visited = []
+
+    flag = [0] * len(graph)
+    stack = []
+
+    stack.append(start)
     flag[start] = 1
-    search(graph[start])
+
+    while stack:
+        cur = stack.pop()
+        visited.append(cur)
+
+        for neighbor in graph[cur][::-1]:
+          if flag[neighbor]:
+              continue
+
+          stack.append(neighbor)
+          flag[neighbor] = 1
 
     return visited
 

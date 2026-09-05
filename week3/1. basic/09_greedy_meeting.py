@@ -33,9 +33,9 @@ def select_meetings(meetings):
         (배정된 회의 개수, 선택된 회의 리스트)
     """
     if not meetings:
-        return 0 
+        return 0, []
     
-    meetings.sort(key=lambda time : time[1])
+    meetings.sort(key=lambda time : (time[1], time[0]))
     
     selected = []
 

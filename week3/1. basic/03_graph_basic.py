@@ -45,10 +45,10 @@ def create_graph(vertices, edges, directed=False):
     for i in range(vertices):
         graph[i] = []
 
-    for edge in edges:
-        graph[edge[0]].append(edge[1])
+    for start, end in edges:
+        graph[start].append(end)
         if not directed:
-          graph[edge[1]].append(edge[0])
+          graph[end].append(start)
     
     return graph
 
