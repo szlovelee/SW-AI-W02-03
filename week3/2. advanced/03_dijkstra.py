@@ -75,12 +75,28 @@ def dijkstra(n: int, edges: list, start: int) -> list:
     start: 출발 정점
     반환: 길이 n 의 거리 리스트 (도달 불가 = float('inf'))
     """
-    # TODO: 인접 리스트 graph 구성 (graph[u] = [(v, w), ...])
-    # TODO: dist 를 INF 로 초기화하고 dist[start] = 0
-    # TODO: 우선순위 큐(heapq)로 BFS-like 최단경로 탐색
-    # TODO: dist 반환
-    pass
+    graph = [[] for _ in range(n)]
+    for s, e, v in edges:
+        graph[s].append((e, v))
 
+    distance = [INF] * n
+    distance[start] = 0
+
+    unfinalized = [(0, start)]
+
+    while unfinalized:
+        cur_dist, cur = heapq.heappop(unfinalized)
+
+        if cur_dist > distance[cur]:
+            continue 
+        for end, value in graph[cur]:
+            new_dist = cur_dist + value
+
+            if new_dist < distance[end]:
+                distance[end] = new_dist
+                heapq.heappush(unfinalized, (new_dist, end))
+        
+    return distance
 
 def _format(dist):
     """출력 표기를 위한 헬퍼: float('inf') 는 'INF' 로 보여줌"""
@@ -90,14 +106,7 @@ def _format(dist):
 if __name__ == "__main__":
     print("[테스트 1] 예시 그래프 (5개 정점)")
     n = 5
-    edges = [
-        (0, 1, 4),
-        (0, 2, 1),
-        (2, 1, 2),
-        (2, 3, 5),
-        (1, 3, 1),
-        (3, 4, 3),
-    ]
+    edges = [(0, 1, 4), (0, 2, 1), (2, 1, 2), (2, 3, 5), (1, 3, 1), (3, 4, 3)]
     print(f"  n={n}, start=0")
     print(f"  최단 거리: {_format(dijkstra(n, edges, 0))}")
     print()

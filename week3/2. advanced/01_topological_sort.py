@@ -39,21 +39,31 @@ def topological_sort(vertices, edges):
     Returns:
         위상 정렬 순서
     """
-    # TODO: 그래프와 진입 차수 초기화
-    pass
-    
-    # TODO: 그래프 구성 및 진입 차수 계산
-    pass
-    
-    # TODO: 진입 차수가 0인 정점들을 큐에 추가
-    pass
-    
+    following = {x:[] for x in range(vertices)}   # 리스트로 수정
+    indeg = [0] * vertices
+
+    for start, end in edges:
+        following[start].append(end)
+        indeg[end] += 1
+
     result = []
+    unfinished = deque()
+
+    for i in range(vertices):
+        if indeg[i] > 0:
+            continue
+        unfinished.append(i)
     
-    # TODO: 큐가 빌 때까지 반복
-    ## 큐에서 정점 꺼내기
-    ## 인접한 정점들의 진입 차수 감소
-    pass
+    while len(unfinished) > 0:
+        current = unfinished.popleft()
+        for v in following[current]:
+            indeg[v] -= 1
+            if indeg[v] == 0:
+                unfinished.append(v)
+        result.append(current)
+
+    if len(result) < vertices:
+        raise ValueError("그래프에 사이클이 있어 위상 정렬이 불가능합니다.")
     
     return result
 
